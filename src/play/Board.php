@@ -1,19 +1,22 @@
 <?php
 Class Board{
     //2d array
-    var $board = array(array());
-    function __construct() {
-        
-        $this->board=array(array());
-        
+    public $gameBoard=array();
+    
+    function __construct(){
         for($row=0; $row < 6; $row++){
-            for($column=0; $column < 7; $column){
-                $this->board[$row][$column] = 0;
-                
+            for($column=0; $column < 7; $column++){
+                $this->gameBoard[$row][$column]=0;
             }
-            
         }
-        
+    }
+    function printBoard(){
+        for ($i = 0; $i < 6; $i++) {
+            for ($j = 0; $j < 7; $j++) {
+                echo $this->gameBoard[$i][$j] . " ";
+            }
+            echo "<br>";
+        }
     }
     
     public static $EMPTY ="";
@@ -25,6 +28,8 @@ Class Board{
             
             return self::$EMPTY;
         }
-    }
+    }  
+   
 }
+
 ?>
