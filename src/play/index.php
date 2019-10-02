@@ -29,13 +29,19 @@ else if(!array_key_exists("move", $_GET)){
 else{
     $response = array(
         'response' => true,
-        'move' => array(
+        'ack_move' => array(
             'slot' => $move,
             'isWin' => false,
             'isDraw' => false,
-            'row' => array()
+            'row' => array(),
+            'move' => array(
+                'slot' => $move,
+                'isWin' => false,
+                'isDraw' => false,
+                'row' => array()
+          
+            )
         )
-        
     );
     echo json_encode($response);
 }
