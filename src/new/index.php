@@ -5,7 +5,8 @@ include ("../play/Board.php");
 $response = array();
 
 $STRATEGY = $_GET["strategy"];
-//$STRATEGY="Smart";
+//$STRATEGY="Random";
+
 
 if(empty( $STRATEGY ) ) {
     $response = array(
@@ -18,12 +19,16 @@ elseif($STRATEGY == "Smart" || $STRATEGY == "Random"){
         'response' => true,
         'pid' => uniqid()
     );
-   $grid = new Board();
-   
-  $saved = fopen("Saved/".$response["pid"].".txt","w");
-  fwrite($saved, $STRATEGY."\r\n");
-  fwrite($saved, json_encode($grid->gameBoard));
-  fclose($saved); 
+    //the problem here it is not generating a txt file to save game through the application
+    $grid = new Board();
+    $info = array(
+        'pid' => $response["pid"],
+        'strategy' => $STRATEGY,
+        'board' => $grid->gameBoard
+    );
+    file_put_contents("../saved/".$response["pid"].".txt", json_encode($info));
+     
+  
 }
 else{
     $response = array(
@@ -31,6 +36,9 @@ else{
         'message' => "Unknown Strategy"
     );
 }
+
+
+
 
 echo json_encode($response);
 
