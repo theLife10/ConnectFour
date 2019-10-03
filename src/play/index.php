@@ -9,13 +9,10 @@ if( !array_key_exists("pid", $_GET) ){
     );
     echo json_encode($response);
 }
-/*
- * comment this if statement to make it to the else statement
- */
 else if(!file_exists("../saved/".$_GET['pid'].".txt")){
     $response = array(
         'response' => false,
-        'reason' => "Cannot find PID"
+        'reason' => "Unknown pid"
     );
     echo json_encode($response);
 }
@@ -23,6 +20,13 @@ else if(!array_key_exists("move", $_GET)){
     $response = array(
         'response' => false,
         'reason' => "Move not specified"
+    );
+    echo json_encode($response);
+}
+else if($move < 0 || $move >= 7){
+    $response = array(
+        'response' => false,
+        'reason' => "Invalid slot, $move"
     );
     echo json_encode($response);
 }
@@ -39,7 +43,6 @@ else{
                 'isWin' => false,
                 'isDraw' => false,
                 'row' => array()
-          
             )
         )
     );

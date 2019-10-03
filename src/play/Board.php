@@ -6,7 +6,7 @@ Class Board{
     function __construct(){
         for($row=0; $row < 6; $row++){
             for($column=0; $column < 7; $column++){
-                $this->gameBoard[$row][$column]=0;
+                $this->gameBoard[$row][$column]="#";
             }
         }
     }
@@ -28,7 +28,15 @@ Class Board{
             
             return self::$EMPTY;
         }
-    }  
+    }
+    
+    public function putToken(){
+        for($i = 6; $i >=0; $i--){
+            if($this->gameBoard != "#"){
+                
+            }
+        }
+    }
    
 }
 
