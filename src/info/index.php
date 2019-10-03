@@ -12,7 +12,7 @@ class GameInfo{
     }
 }
 
-$gameInfo = new GameInfo(array('width'=>6, 'height'=>7,'strategies'=>["Smart","Random"]));
+$gameInfo = new GameInfo(array('width'=>7, 'height'=>6,'strategies'=>["Smart","Random"]));
 echo json_encode($gameInfo);
 
    
