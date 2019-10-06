@@ -4,8 +4,10 @@ require_once '../play/Random.php';
 
 $move = $_GET['move'];
 $pid = $_GET['pid'];
-$currentBoard = new Board();
+//$currentBoard = new Board();
 $info = json_decode(file_get_contents("../writable/$pid.txt"),true);
+$isWin = false;
+$isDraw = false;
 
 if( !array_key_exists("pid", $_GET) ){
     $response = array(
@@ -39,31 +41,31 @@ else{
     
     if(strcasecmp($info["strategy"], "Random") == 0){
  //     $board = $info["board"]["gameBoard"];
-      
-      $currentBoard ->refreshBoard($pid);
+       $file = "../writable/".$pid.".txt";
+       $json = file_get_contents($file);
+        
+      $current=Board::refreshBoard($json);
       
       
      //  $random = new Random($board,$move);
      
       $randomToken = rand(0,6);
-      $currentBoard->dropInSlot($move, 1);
-      $currentBoard->dropInSlot($randomToken, 2);
+      $current->dropInSlot($move, 1);
+     $current->dropInSlot($randomToken, 2);
      
-        
+    
     //   $randomToken = $random->getPosition();
-        
-        
         
             $response = array('response'=> true, 
                 'ack_move'=> array(
                     'slot'=> $move,
-                    'isWin' => false, 
-                    'isDraw' => false, 
+                    'isWin' => $isWin, 
+                    'isDraw' => $isDraw, 
                     'row' =>[] ),
                 'move' => array(
                     'slot' => $randomToken, 
-                    'isWin' => false, 
-                    'isDraw' => false, 
+                    'isWin' => $isWin, 
+                    'isDraw' => $isDraw, 
                     'row' => []
                 )
                 
@@ -74,8 +76,8 @@ else{
             
           
         
-        $currentBoard -> writeInformation($pid);
-        
+        $current -> writeInformation($pid);
+           
     }
     echo json_encode($response);
    
