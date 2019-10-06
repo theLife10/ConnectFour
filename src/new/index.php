@@ -19,10 +19,12 @@ elseif($STRATEGY == "Smart" || $STRATEGY == "Random"){
     $info = array(
         'pid' => $response["pid"],
         'strategy' => $STRATEGY,
-        'grid' => new Board()
+        'flag' => true,
+        'grid'=>new Board()
     );
+    
     file_put_contents("../writable/".$response["pid"].".txt", json_encode($info));
-     
+    
   
 }
 else{
