@@ -60,12 +60,12 @@ else{
                     'slot'=> $move,
                     'isWin' => $determine == varibles::$isWin, 
                     'isDraw' => $determine == varibles::$isDraw, 
-                    'row' =>[] ),
+                    'row' => ($determine == varibles::$isWin) ? $current->play_path : [] ),
                 'move' => array(
                     'slot' => $randomToken, 
                     'isWin' => $randDetermine == varibles::$isWin, 
                     'isDraw' => $randDetermine == varibles::$isDraw, 
-                    'row' => []
+                    'row' => ($randDetermine == varibles::$isWin) ? $current->play_path : [] 
                 )
                 
             );    
@@ -73,6 +73,48 @@ else{
         $current -> writeInformation($pid);
            
     }
+    
+    if(strcasecmp($info["strategy"], "Smart") == 0){
+        
+        $file = "../writable/".$pid.".txt";
+        $json = file_get_contents($file);
+        
+        $current=Board::refreshBoard($json);
+        
+        
+        
+        $smartToken = rand(0,6);
+        
+        $determine = $current->overallfunction($move, 1);
+        if($smartToken-1 < 0){
+            $smartToken = $smartToken+2;
+        }
+        if($smartToken >= 7){
+            $smartToken = $smartToken-3;
+        }
+        $randDetermine=$current->overallfunction($smartToken, 2);
+        
+        
+        
+        $response = array('response'=> true,
+            'ack_move'=> array(
+                'slot'=> $move,
+                'isWin' => $determine == varibles::$isWin,
+                'isDraw' => $determine == varibles::$isDraw,
+                'row' => ($determine == varibles::$isWin) ? $current->play_path : [] ),
+            'move' => array(
+                'slot' => $smartToken,
+                'isWin' => $randDetermine == varibles::$isWin,
+                'isDraw' => $randDetermine == varibles::$isDraw,
+                'row' => ($randDetermine == varibles::$isWin) ? $current->play_path : []
+            )
+            
+        );
+        
+        $current -> writeInformation($pid);
+        
+    }
+    
     echo json_encode($response);
    
 }

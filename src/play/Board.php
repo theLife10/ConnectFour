@@ -91,11 +91,12 @@ Class Board{
          $this->count ++;
          
          
-         if ($this->count == 42)
+         if ($this->count == 42){
              return varibles::$isDraw;
+         }
             
              
-             for ($dir = 1; $dir <= 8; $dir ++) {
+             for ($i = 1; $i <= 8; $i ++) {
                  $this->winGame = $this->checkWin($ava,$slot);
                 
                  if($this->winGame){
@@ -175,6 +176,10 @@ Class Board{
              }
          }
      }
+     
+     
+     
+     
      
      
 }
