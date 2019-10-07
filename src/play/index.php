@@ -1,13 +1,14 @@
 <?php
 require_once '../play/Board.php'; 
 require_once '../play/Random.php';
+require_once '../play/Varibles.php';
 
 $move = $_GET['move'];
 $pid = $_GET['pid'];
-//$currentBoard = new Board();
+
+
 $info = json_decode(file_get_contents("../writable/$pid.txt"),true);
-$isWin = false;
-$isDraw = false;
+
 
 if( !array_key_exists("pid", $_GET) ){
     $response = array(
@@ -40,41 +41,34 @@ else if($move < 0 || $move >= 7){
 else{
     
     if(strcasecmp($info["strategy"], "Random") == 0){
- //     $board = $info["board"]["gameBoard"];
+ 
        $file = "../writable/".$pid.".txt";
        $json = file_get_contents($file);
         
       $current=Board::refreshBoard($json);
       
       
-     //  $random = new Random($board,$move);
      
       $randomToken = rand(0,6);
-      $current->dropInSlot($move, 1);
-     $current->dropInSlot($randomToken, 2);
-     
+     $determine = $current->overallfunction($move, 1);
+     $randDetermine=$current->overallfunction($randomToken, 2);
+       
     
-    //   $randomToken = $random->getPosition();
-        
+     
             $response = array('response'=> true, 
                 'ack_move'=> array(
                     'slot'=> $move,
-                    'isWin' => $isWin, 
-                    'isDraw' => $isDraw, 
+                    'isWin' => $determine == varibles::$isWin, 
+                    'isDraw' => $determine == varibles::$isDraw, 
                     'row' =>[] ),
                 'move' => array(
                     'slot' => $randomToken, 
-                    'isWin' => $isWin, 
-                    'isDraw' => $isDraw, 
+                    'isWin' => $randDetermine == varibles::$isWin, 
+                    'isDraw' => $randDetermine == varibles::$isDraw, 
                     'row' => []
                 )
                 
-            );
-            
-        
-                
-            
-          
+            );    
         
         $current -> writeInformation($pid);
            
